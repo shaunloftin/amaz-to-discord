@@ -42,7 +42,6 @@ def err_report():
             # the HTML message, is best and preferred.
             msg.attach(part1)
             msg.attach(part2)
-            
             # Try to send the message.
             try:  
                 server = smtplib.SMTP("email-smtp.us-east-1.amazonaws.com", "587")
@@ -53,3 +52,4 @@ def err_report():
                 server.login(USERNAME_SMTP, PASSWORD_SMTP)
                 server.sendmail(SENDER, RECIPIENT, msg.as_string())
                 server.close()
+    return 0
