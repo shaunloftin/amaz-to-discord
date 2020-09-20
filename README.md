@@ -1,0 +1,2 @@
+# amaz-to-discord
+ 
