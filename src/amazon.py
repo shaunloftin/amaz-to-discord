@@ -28,14 +28,15 @@ def get_updated_status(product_urls):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    html = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=chrome_options)
-    with open('../data/status.txt', 'w') as file:
-        for url in product_urls:
-            html.get(url)
-            soup = BeautifulSoup(html.page_source, 'lxml')
-            availability = soup.find('div', attrs={'id' : 'availability'})
+    # html = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=chrome_options)
+    html = webdriver.Chrome(executable_path='../data/chromedriver.exe', chrome_options=chrome_options)
+    
+    for url in product_urls:
+        html.get(url)
+        soup = BeautifulSoup(html.page_source, 'lxml')
+        availability = soup.find('div', attrs={'id' : 'availability'})
+        try:
             items = availability.findAll('span', attrs={'class' : 'a-declarative', 'class' : 'a-size-medium'})
-        
             status = "available"
             for x in items:
                 if 'Currently un' in x.text:
@@ -45,6 +46,11 @@ def get_updated_status(product_urls):
                     status = 'other-seller'
                     break
             updated_status.append(status)
+        except AttributeError:
+            updated_status.append('unavailable')
+                
+    with open('../data/status.txt', 'w') as file:
+        for x in status:
             file.write(status+'\n')
         
     webdriver.Chrome.quit(html)

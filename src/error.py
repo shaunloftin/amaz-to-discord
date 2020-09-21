@@ -4,13 +4,15 @@
 #
 # error.py
 
+import smtplib
 import email.utils
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def err_report():
-    USERNAME_STMP = ""
-    PASSWORD_STMP = ""
+def err_report(e):
+    SENDER = ""
+    USERNAME_SMTP = ""
+    PASSWORD_SMTP = ""
     
     with open('../data/email_cred.txt', 'r') as file:
         SENDER = file.readline()
@@ -23,7 +25,7 @@ def err_report():
             RECIPIENT = email
 
             SUBJECT = "DiScOrD bOt StOpPeD wOrKiNg"
-            BODY_TEXT = ("The bot has stopped working. Please advise. Also, hi future Shaun.")
+            BODY_TEXT = ("The bot has stopped working. Please advise. Also, hi future Shaun." + '\n' + e)
         
             # Create message container - the correct MIME type is multipart/alternative.
             msg = MIMEMultipart('alternative')
@@ -52,4 +54,6 @@ def err_report():
                 server.login(USERNAME_SMTP, PASSWORD_SMTP)
                 server.sendmail(SENDER, RECIPIENT, msg.as_string())
                 server.close()
-    return 0
+                return 0
+            except Exception as e:
+                return e
