@@ -33,13 +33,13 @@ def get_updated_status(product_urls):
     
     for url in product_urls:
         html.get(url)
+        print('hi')
         soup = BeautifulSoup(html.page_source, 'lxml')
-        availability = soup.find('div', attrs={'id' : 'availability'})
         try:
-            items = availability.findAll('span', attrs={'class' : 'a-declarative', 'class' : 'a-size-medium'})
+            items = soup.findAll('span', attrs={'class' : 'a-declarative', 'class' : 'a-size-medium'})
             status = "available"
             for x in items:
-                if 'Currently un' in x.text:
+                if 'Currently unavailable' in x.text:
                     status = 'unavailable'
                     break
                 if 'Available from' in x.text:
@@ -50,8 +50,8 @@ def get_updated_status(product_urls):
             updated_status.append('unavailable')
                 
     with open('../data/status.txt', 'w') as file:
-        for x in status:
-            file.write(status+'\n')
+        for status in updated_status:
+            file.write(status + '\n')
         
     webdriver.Chrome.quit(html)
     return updated_status

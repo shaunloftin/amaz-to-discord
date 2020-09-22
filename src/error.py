@@ -4,16 +4,20 @@
 #
 # error.py
 
+from datetime import datetime
 import smtplib
 import email.utils
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def err_report(e):
-    SENDER = ""
-    USERNAME_SMTP = ""
-    PASSWORD_SMTP = ""
-    
+def log(e):
+    with open('../data/log.txt', 'a') as file:
+        now = datetime.now()
+        output = now.strftime("%d/%m/%Y %H:%M:%S") + ' --- ' + str(e) + '\n'
+        print(output)
+        file.write(output)
+
+def err_report(e):    
     with open('../data/email_cred.txt', 'r') as file:
         SENDER = file.readline()
         USERNAME_SMTP = file.readline()

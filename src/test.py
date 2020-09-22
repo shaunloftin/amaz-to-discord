@@ -1,14 +1,12 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+# AMAZ-TO-DISCORD MONITORING
+# WRITTEN BY: SHAUN LOFTIN
+# github.com/shaunloftin
+#
+# test.py
 
-CHROMEDRIVER_PATH = "/usr/bin/chromedriver"
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-setuid-sandbox")
-chrome_options.add_argument("--disable-features=VizDisplayCompositor")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--no-sandbox")
-driver = webdriver.Chrome(CHROMEDRIVER_PATH,options=chrome_options)
-driver.get("https://www.google.com")
-print(driver.title)
-driver.close()
+# i write test code here and delete it before i push
+#
+# why you may ask?
+#
+# so future employers can't see where I've messed up
+# hi future employers
