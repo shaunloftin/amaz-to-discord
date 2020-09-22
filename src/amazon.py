@@ -7,6 +7,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+import time
 
 def get_product_urls(url_file):
     product_urls = []
@@ -33,11 +34,12 @@ def get_updated_status(product_urls):
     
     for url in product_urls:
         html.get(url)
-        print('hi')
         soup = BeautifulSoup(html.page_source, 'lxml')
+        time.sleep(4)
         try:
             items = soup.findAll('span', attrs={'class' : 'a-declarative', 'class' : 'a-size-medium'})
             status = "available"
+            print(items)
             for x in items:
                 if 'Currently unavailable' in x.text:
                     status = 'unavailable'

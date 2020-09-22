@@ -7,6 +7,7 @@
 import amazon
 import error
 
+from datetime import datetime
 import discord
 import time
 import timeit
@@ -21,25 +22,24 @@ try:
     client = discord.Client()
     token = bot_key
     
-    product_urls = amazon.get_product_urls('../data/products.txt')
-    original_status = amazon.get_original_status('../data/status.txt')
-    
     @client.event
     async def on_ready():
         channel_alerts = client.get_channel(channel_alerts_id)
         channel_status = client.get_channel(channel_status_id)
+          
+        product_urls = amazon.get_product_urls('../data/products.txt')
         
         while True:
             start = timeit.default_timer()
+            original_status = amazon.get_original_status('../data/status.txt')
             updated_status = amazon.get_updated_status(product_urls)
             
             for x in range(0, len(updated_status)):
                 if updated_status[x] == 'available' and original_status[x] != 'available':
                     await channel_alerts.send("Back in stock: " + product_urls[x] + affiliate_tag)
             
-            original_status = updated_status
             stop = timeit.default_timer()
-            report = 'Success. Runtime: ' + str(stop-start)
+            report = datetime.now().strftime("%m/%d/%Y %H:%M:%S") + ' -- Success. Runtime: ' + str((stop-start)/60) + ' minutes'
             error.log(report) 
             await channel_status.send(report)
             time.sleep(15)

@@ -29,7 +29,7 @@ def err_report(e):
             RECIPIENT = email
 
             SUBJECT = "DiScOrD bOt StOpPeD wOrKiNg"
-            BODY_TEXT = ("The bot has stopped working. Please advise. Also, hi future Shaun." + '\n' + e)
+            BODY_TEXT = ("The bot has stopped working. Please advise. Also, hi future Shaun." + '\n' + str(e))
         
             # Create message container - the correct MIME type is multipart/alternative.
             msg = MIMEMultipart('alternative')
